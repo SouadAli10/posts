@@ -25,28 +25,23 @@ MongoClient.connect('mongodb://blogs:blogs@ds115420.mlab.com:15420/blog', (err, 
 })
 
 app.get('/:sorting?', (req, res) => {
-    switch ('/') {
-        default:
-            db.collection('posts').find().toArray(function (err, results) {
-                res.render('index.ejs', {
-                    posts: results
-                })
-            })
-        sorting:
-        if sorting=date
-            db.collection('posts').find().sort({date}).toArray(function (err, results) {
-                res.render('index.ejs', {
-                    posts: results
-                })
-            })
-        title:
-            db.collection('posts').find().sort({title}).toArray(function (err, results) {
-                res.render('index.ejs', {
-                    posts: results
-                })
-            })
+    const sorting = req.params.sorting
+    if (!sorting || sorting == "default") {
+        db.collection('posts').find().toArray(function (err, results) {
+            if (err) return console.log(err)
+            res.render('index.ejs', { posts: results })
+        })
+    } else if (sorting == "title") {
+        db.collection('posts').find().sort({ "title": 1 }).toArray(function (err, results) {
+            if (err) return console.log(err)
+            res.render('index.ejs', { posts: results })
+        })
+    } else if (sorting == "date") {
+        db.collection('posts').find().sort({ "date": -1 }).toArray(function (err, results) {
+            if (err) return console.log(err)
+            res.render('index.ejs', { posts: results })
+        })
     }
-
 })
 
 app.post('/add', (req, res) => {
