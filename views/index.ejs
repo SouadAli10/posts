@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<style>
+    body {
+        margin: 0 5% 0 5%;
+    }
+
+    div {
+        width: 100%;
+        display: flex;
+    }
+
+    section {
+        width: 50%;
+    }
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <title>MY APP</title>
+</head>
+
+<body>
+    <div>
+        <section>
+            <h1>My Blog</h1>
+            <h2>Create a new post</h2>
+
+            <form action="/add" method="POST">
+                <input id="title" type="text" placeholder="Title" name="title">
+                <br>
+                <br>
+                <textarea id="text" rows="5" cols="50" type="text" placeholder="Text" name="text"></textarea>
+                <br>
+                <br>
+                <input type="hidden" id=" date" name="date">
+                <br>
+                <br>
+                <button type="submit">Add Post</button>
+            </form>
+            <br>
+        </section>
+        <section>
+            <h2>Old posts</h2>
+            <a href="/default">Default</a>
+            <a href="/title">Title</a>
+            <a href="/date">Date</a>
+            <ul>
+                <% for(var i=0; i<posts.length; i++) {%>
+                    <li>
+                        <h3>
+                            <%= posts[i].title %>
+                        </h3>
+                        <p>
+                            <span>
+                                <%= posts[i].text %>
+                            </span>
+                        </p>
+                        <a href="/edit/<%= posts[i]._id %>">Edit</a>
+                        <a href="/delete/<%= posts[i]._id %>">Delete</a>
+                    </li>
+                    <% } %>
+            </ul>
+        </section>
+    </div>
+</body>
+
+</html>
+<script>
+    n = new Date(); // get current date
+    // formatting the date
+    h = n.getHours();
+    M = n.getMinutes();
+    y = n.getFullYear();
+    // getMonth() counts January as 0 so we need +1 
+    m = n.getMonth() + 1;
+    d = n.getDate();
+    //check if it's AM or PM
+    if (h < 12) {
+        document.getElementById("date").value = h + ":" + M + " AM " + m + "/" + d + "/" + y;
+    }
+    else {
+        document.getElementById("date").value = h + ":" + M + " PM " + m + "/" + d + "/" + y;
+    }
+</script>

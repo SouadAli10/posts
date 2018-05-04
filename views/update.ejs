@@ -1,0 +1,7 @@
+<form action="/update/<%= posts._id %>" method="POST">
+                <input id="title" type="text" value = "<%= posts.title %>" name="title">
+                <br><br>
+                <textarea id="text" rows="5" cols="50" type="text" name="text"><%= posts.text %></textarea>
+                <br><br>
+                <button type="submit">Update Post</button>
+ </form>
