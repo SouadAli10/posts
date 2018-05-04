@@ -19,16 +19,11 @@
 </head>
 
 <body>
-    <form action="/update/<%=post[0]._id%>" method="post">
-        Title
-        <br>
-        <input type="text" name="title" value="<%= post[0].title %>">
-        <br> 
-        Text
-        <br>
-        <textarea name="text" cols="50" rows="5"><%= post[0].text %></textarea>
-        <br>
-        <input type="submit">
+    <form action="/" method="get">
+        <h3 type="text" name="title"><%= post[0].title %><h3/>
+        <p name="text" cols="50" rows="5">Text: <%= post[0].text %></p>
+        <p><%= post[0].date %></p>
+        <input type="submit" value="go home">
     </form>
 </body>
 

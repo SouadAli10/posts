@@ -1,86 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<style>
-    body {
-        margin: 0 5% 0 5%;
-    }
-
-    div {
-        width: 100%;
-        display: flex;
-    }
-
-    section {
-        width: 50%;
-    }
-</style>
-
 <head>
-    <meta charset="UTF-8">
-    <title>MY APP</title>
+    <style>
+        body {
+            display: grid;
+            grid-template-columns: 0.5fr 1fr;
+        }
+    </style>
+    <title>Document</title>
 </head>
 
 <body>
-    <div>
-        <section>
-            <h1>My Blog</h1>
-            <h2>Create a new post</h2>
+    <!-- the form to submit a post to DB with action 'posts' -->
+    <form action="/posts" method="post">
+        <input type="text" placeholder="Title" name="title">
+        <br>
+        <textarea name="text" placeholder="Text" cols="50" rows="5"></textarea>
+        <br>
+        <input type="hidden" name="date" id="date">
+        <br>
+        <input type="submit">
+    </form>
 
-            <form action="/add" method="POST">
-                <input id="title" type="text" placeholder="Title" name="title">
-                <br>
-                <br>
-                <textarea id="text" rows="5" cols="50" type="text" placeholder="Text" name="text"></textarea>
-                <br>
-                <br>
-                <input type="hidden" id=" date" name="date">
-                <br>
-                <br>
-                <button type="submit">Add Post</button>
-            </form>
-            <br>
-        </section>
-        <section>
-            <h2>Old posts</h2>
-            <a href="/default">Default</a>
-            <a href="/title">Title</a>
-            <a href="/date">Date</a>
-            <ul>
-                <% for(var i=0; i<posts.length; i++) {%>
-                    <li>
-                        <h3>
-                            <%= posts[i].title %>
-                        </h3>
-                        <p>
-                            <span>
-                                <%= posts[i].text %>
-                            </span>
-                        </p>
-                        <a href="/edit/<%= posts[i]._id %>">Edit</a>
-                        <a href="/delete/<%= posts[i]._id %>">Delete</a>
-                    </li>
-                    <% } %>
-            </ul>
-        </section>
-    </div>
+    <!-- post part it's for map the DB -->
+    <ul class="posts">
+        <!-- sorting part  -->
+        <p style="margin-left: 1.5%"></p>Sorting by: 
+        <a href="/default" style="margin-left: 1.5%"> default </a>
+        <a href="/title" style="margin-left: 1.5%"> title </a>
+        <a href="/date" style="margin-left: 1.5%"> date </a>
+        <!-- map posts from collection  -->
+        <% for(var i=0; i<posts.length; i++) {%>
+            <div class="post">
+                <h3>
+                    <%= posts[i].title %>
+                </h3>
+                <p>
+                    <%
+                        var text = posts[i].text
+                        text = text.split(" ")
+                        text = text.slice(0, 3)
+                        text = text.join(" ")
+                        %>
+                        <%=text%> 
+                        <a href="/readmore/<%= posts[i]._id %>"> read more </a>
+                </p>
+                <p>
+                    <%= posts[i].date %>
+                </p>
+                <a href="/edit/<%= posts[i]._id %>"> update </a>
+                <a href="/delete/<%= posts[i]._id %>" style="margin-left: 1.5%"> delete </a>
+                <hr>
+            </div>
+            <% } %>
+    </ul>
+    <script>
+        n = new Date(); // get current date
+        // formatting the date
+        h = n.getHours();
+        M = n.getMinutes();
+        y = n.getFullYear();
+        // getMonth() counts January as 0 so we need +1 
+        m = n.getMonth() + 1;
+        d = n.getDate();
+        //check if it's AM or PM
+        if (h < 12) {
+            document.getElementById("date").value = h + ":" + M + " AM " + m + "/" + d + "/" + y;
+        }
+        else {
+            document.getElementById("date").value = h + ":" + M + " PM " + m + "/" + d + "/" + y;
+        }
+    </script>
 </body>
 
 </html>
-<script>
-    n = new Date(); // get current date
-    // formatting the date
-    h = n.getHours();
-    M = n.getMinutes();
-    y = n.getFullYear();
-    // getMonth() counts January as 0 so we need +1 
-    m = n.getMonth() + 1;
-    d = n.getDate();
-    //check if it's AM or PM
-    if (h < 12) {
-        document.getElementById("date").value = h + ":" + M + " AM " + m + "/" + d + "/" + y;
-    }
-    else {
-        document.getElementById("date").value = h + ":" + M + " PM " + m + "/" + d + "/" + y;
-    }
-</script>
