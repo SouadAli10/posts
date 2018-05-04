@@ -32,7 +32,8 @@ app.get('/:sorting?', (req, res) => {
                     posts: results
                 })
             })
-        date:
+        sorting:
+        if sorting=date
             db.collection('posts').find().sort({date}).toArray(function (err, results) {
                 res.render('index.ejs', {
                     posts: results
